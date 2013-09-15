@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, GoogleCompatitionActivity!</string>
+    <string name="app_name">GoogleCompitition</string>
+    <color name="background">#ECECEC</color>
+</resources>

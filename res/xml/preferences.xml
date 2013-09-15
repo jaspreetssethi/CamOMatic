@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+		android:title="Connection Settings">
+		<EditTextPreference
+			android:name="IP address"
+			android:summary="Please enter an IP Address or Fully Qualified Domain Name"
+			android:defaultValue="127.0.0.1"
+			android:title="Enter an IP address"
+			android:key="camomatic_ip_address" />
+		<EditTextPreference
+			android:name="Port"
+			android:summary="Please enter a Port"
+			android:defaultValue="1337"
+			android:title="Enter a Port"
+			android:key="camomatic_port" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="Config State">
+		<Preference
+			android:title="Reset Config State"
+			android:summary="Press this to reset your app's config state, then restart the app"
+			android:key="camomatic_config_state" />
+	</PreferenceCategory>
+</PreferenceScreen>
