@@ -1,7 +1,6 @@
 package edu.uic.cs440;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -25,20 +24,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.coremedia.iso.IsoBufferWrapperImpl;
 import com.coremedia.iso.IsoFile;
-import com.coremedia.iso.IsoFileConvenienceHelper;
 import com.coremedia.iso.boxes.h264.AvcConfigurationBox;
-
-import edu.uic.cs440.AudioPacketizer;
-import edu.uic.cs440.PacketHandler;
-import edu.uic.cs440.Preferences;
-import edu.uic.cs440.Utils;
-import edu.uic.cs440.VideoPacketizer;
 
 public class CamOMaticActivity extends Activity 
 									   implements OnSharedPreferenceChangeListener{
@@ -293,19 +282,28 @@ public class CamOMaticActivity extends Activity
 	{
 		IsoFile VidFile = null;
 		try {
-			VidFile = new IsoFile(new IsoBufferWrapperImpl(new File(autodetection_filename)));
+			VidFile = new IsoFile(autodetection_filename);
 		} catch (IOException e) {
 			return false;
 		}
-		try {
-			VidFile.parse();
-		} catch (IOException e) {
+		AvcConfigurationBox configBox;
+		configBox = VidFile.getBoxes(AvcConfigurationBox.class).get(0);
+		if(configBox == null){
+			try {
+				VidFile.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return false;
 		}
-		AvcConfigurationBox configBox = (AvcConfigurationBox) IsoFileConvenienceHelper.get(VidFile, "moov/trak/mdia/minf/stbl/stsd/avc1/avcC");
-		if(configBox == null) return false;
 		sps = configBox.getSequenceParameterSets().get(0);
 		pps = configBox.getPictureParameterSets().get(0);
+		try {
+			VidFile.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 	
